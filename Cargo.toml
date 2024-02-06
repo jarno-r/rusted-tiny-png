@@ -1,0 +1,14 @@
+[package]
+name = "rusted-tiny-png"
+version = "0.1.0"
+edition = "2021"
+default-run = "rusted-tiny-png"
+
+[[bin]]
+name = "rusted-tiny-png"
+path = "src/main.rs"
+
+[dependencies]
+adler = "1.0.2"
+bitvec = "1.0.1"
+crc = "3.0.1"
