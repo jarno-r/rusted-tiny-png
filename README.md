@@ -7,9 +7,9 @@ The smallest valid PNG is 67 bytes. Evan describes a file that has 1 bit pixel d
 
 The file size can be further reduced by omitting parts that are not required to decode the image data. The compressed pixel data contains a checksum. Removing the checksum does not prevent decompressing the image data, but reduces the file size by 4 bytes, down to 63 bytes total. 
 
-The file size can be further reduced by removing the end-of-file indicator, which makes for another 12 bytes, bringing the file size down to 51 bytes.
+The file size can be further reduced by removing the end-of-file indicator or the IEND chunk, which makes for another 12 bytes, bringing the file size down to 51 bytes.
 
-Another extra 5 bytes can be shaved off by truncating the IDAT chunk, leaving out the last null byte of the compressed pixel data and the chunk CRC-32.
+Another extra 5 bytes can be shaved off by truncating the pixel data in the IDAT chunk, leaving out the last null byte of the compressed pixel data and the chunk CRC-32. The last null byte of the deflate stream is part of encoding the end-of-block marker. That can be cut short, because the decoder knows that the stream ends anyway. And omitting the CRC-32 checksum obviously has no impact on the pixel data itself.
 
 Technically a file that omits the above-mentioned parts is not a valid PNG file, but none of the applications I have tested seem to care.
 
