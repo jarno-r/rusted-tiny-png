@@ -9,11 +9,13 @@ The file size can be further reduced by omitting parts that are not required to 
 
 The file size can be further reduced by removing the end-of-file indicator, which makes for another 12 bytes, bringing the file size down to 51 bytes.
 
+Another extra 5 bytes can be shaved off by truncating the IDAT chunk, leaving out the last null byte of the compressed pixel data and the chunk CRC-32.
+
 Technically a file that omits the above-mentioned parts is not a valid PNG file, but none of the applications I have tested seem to care.
 
 ## Usage:
   
-    rusted-tiny-png <PNG file> <0-255> [skip-adler-32] [skip-IEND]
+    rusted-tiny-png <PNG file> <0-255> [skip-adler-32] [skip-IEND] [truncate-IDAT]
 
 <img src="images/tiny.png" width="20"/>
 Create a 67 byte tiniest valid PNG with middle grey:
@@ -30,3 +32,7 @@ Create a 51 byte PNG without Adler-32 checksum and IEND chunk in black:
 
     rusted-tiny-png tiniest.png 0 d d
 
+<img src="images/tiniestest.png" width="20"/>
+Create a 46 byte PNG with truncated IDAT and removed IEND chunk in light greyish:
+
+    rusted-tiny-png tiniestest.png 0 d d d
