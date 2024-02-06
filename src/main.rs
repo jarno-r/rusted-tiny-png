@@ -78,7 +78,8 @@ struct IHDR {
 }
 
 fn main() {
-    const USAGE: &str = "Usage: rusted-tiny-png <PNG file> <0-255> [skip-adler-32] [skip-IEND] [truncate-IDAT]";
+    const USAGE: &str =
+        "Usage: rusted-tiny-png <PNG file> <0-255> [skip-adler-32] [skip-IEND] [truncate-IDAT]";
 
     let mut args = env::args().skip(1);
     let filename = args.next().expect(USAGE);
@@ -110,10 +111,15 @@ fn main() {
     // IDAT contains pixel data. Each row is preceded by filter type (0 - no filter).
     let idat = &chunk(
         "IDAT".as_bytes(),
-        &zlib([0, shade].as_slice(), disable_adler));
+        &zlib([0, shade].as_slice(), disable_adler),
+    );
 
-    if truncate_idat {png.extend(&idat[..5+8]);} else {png.extend(idat);}
-    
+    if truncate_idat {
+        png.extend(&idat[..5 + 8]);
+    } else {
+        png.extend(idat);
+    }
+
     // End of file.
     if !disable_iend {
         png.extend(&chunk("IEND".as_bytes(), [].as_slice()));
@@ -123,7 +129,7 @@ fn main() {
 
     file.write_all(&png).expect("Failed to write to file");
 
-    println!("Raw data ({}):",png.len());
+    println!("Raw data ({}):", png.len());
     for c in png {
         print!("{:x?} ", c);
     }
