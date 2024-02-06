@@ -35,4 +35,4 @@ Create a 51 byte PNG without Adler-32 checksum and IEND chunk in black:
 <img src="images/tiniestest.png" width="20"/>
 Create a 46 byte PNG with truncated IDAT and removed IEND chunk in light greyish:
 
-    rusted-tiny-png tiniestest.png 0 d d d
+    rusted-tiny-png tiniestest.png 200 d d d
